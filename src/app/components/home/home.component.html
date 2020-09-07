@@ -1,0 +1,43 @@
+<h1>Student Data</h1>
+
+
+<p *ngIf="!employeeList"><em>Loading...</em></p>
+<div class="row">
+    <div class="col-md-3">
+        <input type="text" [(ngModel)]="userFilter.name" placeholder="Filter by Name">
+    </div>
+    <div class="col-md-3">
+        <input type="text" [(ngModel)]="userFilter.age" placeholder="Filter by Age">
+    </div>
+    <div class="col-md-3">
+        <input type="text" [(ngModel)]="userFilter.department" placeholder="Filter by Department">
+    </div>
+    <div class="col-md-3">
+        <input type="text" [(ngModel)]="userFilter.date" placeholder="Filter by Date">
+    </div>
+</div>
+
+<table class='table table-striped' *ngIf="employeeList">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Department</th>
+            <th>Date of Birth</th>
+            <th *ngIf="appUser">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let emp of employeeList | orderBy: order | filterBy: userFilter">
+            <td>{{ emp.name }}</td>
+            <td>{{ emp.age }}</td>
+            <td>{{ emp.department }}</td>
+            <td>{{ emp.date }}</td>
+            <td *ngIf="appUser">
+                <a [routerLink]="['/student/edit/', emp.employeeId]">Edit</a> |
+                <a [routerLink]="" (click)="delete(emp.employeeId)">Delete</a>
+            </td>
+        </tr>
+        <tr *ngIf="(employeeList | filterBy: userFilter).length === 0">No matching elements</tr>
+    </tbody>
+</table>
